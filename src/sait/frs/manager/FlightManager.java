@@ -45,8 +45,9 @@ public class FlightManager {
 	 * @throws FileNotFoundException 
 	 */
 	public ArrayList<String> getAirports() throws FileNotFoundException {
-		FlightManager fm = new FlightManager();
-		fm.populateAirports();
+		//FlightManager fm = new FlightManager();
+		//fm.
+		populateAirports();
 		return airports;	
 	}
 	
@@ -56,8 +57,9 @@ public class FlightManager {
 	 * @throws FileNotFoundException 
 	 */
 	public ArrayList<Flight> getFlights() throws FileNotFoundException{
-		FlightManager fm = new FlightManager();
-		fm.populateFlights();
+		//FlightManager fm = new FlightManager();
+		//fm.
+		populateFlights();
 		return flights;
 	}
 	
