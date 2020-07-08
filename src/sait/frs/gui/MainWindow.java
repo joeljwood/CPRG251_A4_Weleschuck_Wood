@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import javax.swing.*;
 
 import sait.frs.manager.FlightManager;
-import sait.frs.manager.Manager;
+import sait.frs.manager.ReservationManager;
 
 
 
@@ -27,6 +27,7 @@ public class MainWindow extends JFrame
 	 * Holds the flight and reservation manager.
 	 */
     private FlightManager FlightManager;
+    private ReservationManager ReservationManager; //added
 	
     /**
 	 * Card layout to display tab content.
@@ -68,7 +69,8 @@ public class MainWindow extends JFrame
 	 * @throws FileNotFoundException 
 	 */
 	public MainWindow() throws FileNotFoundException {
-		this.manager = new FlightManager();
+		this.FlightManager = new FlightManager();// changed from manager
+		this.ReservationManager = new ReservationManager(); // added
 		
 		setTitle("Flight Reservation Management System");
 		
@@ -109,7 +111,7 @@ public class MainWindow extends JFrame
 		cardLayout = new CardLayout();
 		
 		flightsTab = new FlightsTab(FlightManager);
-		reservationsTab = new ReservationsTab(manager);
+		reservationsTab = new ReservationsTab(ReservationManager); // changed from manager
 		
 		panel.setLayout(cardLayout);
 		

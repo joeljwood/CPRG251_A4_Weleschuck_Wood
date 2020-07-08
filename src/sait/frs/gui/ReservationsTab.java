@@ -16,6 +16,7 @@ import sait.frs.exception.InvalidNameException;
 import sait.frs.exception.NoMoreSeatsException;
 import sait.frs.exception.NullFlightException;
 import sait.frs.manager.Manager;
+import sait.frs.manager.ReservationManager;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
 
@@ -48,13 +49,13 @@ public class ReservationsTab extends TabBase {
 	/**
 	 * Instance of travel manager.
 	 */
-	private Manager manager;
+	private ReservationManager manager;
 
 	/**
 	 * Creates the components for reservations tab.
 	 * @param manager
 	 */
-	public ReservationsTab(Manager manager) {
+	public ReservationsTab(ReservationManager manager) {
 		this.manager = manager;
 		panel.setLayout(new BorderLayout());
 
