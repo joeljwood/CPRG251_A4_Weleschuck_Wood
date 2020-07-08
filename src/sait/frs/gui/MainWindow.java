@@ -5,9 +5,11 @@ package sait.frs.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
+import sait.frs.manager.FlightManager;
 import sait.frs.manager.Manager;
 
 
@@ -24,7 +26,7 @@ public class MainWindow extends JFrame
 	/**
 	 * Holds the flight and reservation manager.
 	 */
-    private Manager manager;
+    private FlightManager FlightManager;
 	
     /**
 	 * Card layout to display tab content.
@@ -63,9 +65,10 @@ public class MainWindow extends JFrame
 	
 	/**
 	 * Creates the Main Window and any components inside it.
+	 * @throws FileNotFoundException 
 	 */
-	public MainWindow() {
-		this.manager = new Manager();
+	public MainWindow() throws FileNotFoundException {
+		this.manager = new FlightManager();
 		
 		setTitle("Flight Reservation Management System");
 		
@@ -105,7 +108,7 @@ public class MainWindow extends JFrame
 		
 		cardLayout = new CardLayout();
 		
-		flightsTab = new FlightsTab(manager);
+		flightsTab = new FlightsTab(FlightManager);
 		reservationsTab = new ReservationsTab(manager);
 		
 		panel.setLayout(cardLayout);

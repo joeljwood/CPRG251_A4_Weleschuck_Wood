@@ -2,6 +2,7 @@ package sait.frs.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,6 +14,7 @@ import sait.frs.exception.InvalidCitizenshipException;
 import sait.frs.exception.InvalidNameException;
 import sait.frs.exception.NoMoreSeatsException;
 import sait.frs.exception.NullFlightException;
+import sait.frs.manager.FlightManager;
 import sait.frs.manager.Manager;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
@@ -28,7 +30,7 @@ public class FlightsTab extends TabBase {
 	/**
 	 * Instance of travel manager.
 	 */
-	private Manager manager;
+	private FlightManager manager;
 
 	/**
 	 * List of flights.
@@ -64,7 +66,7 @@ public class FlightsTab extends TabBase {
 	 * Creates the components for flights tab.
 	 * @param Manager passes in manager
 	 */
-	public FlightsTab(Manager manager) {
+	public FlightsTab(FlightManager manager) {
 		this.manager = manager;
 		panel.setLayout(new BorderLayout());
 
@@ -298,8 +300,9 @@ public class FlightsTab extends TabBase {
 	/**
 	 * 
 	 * @return JPanel that goes in the south
+	 * @throws FileNotFoundException 
 	 */
-	private JPanel createSouthPanel() {
+	private JPanel createSouthPanel() throws FileNotFoundException {
 		// calls southNorth, southCenter, southSouth
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -330,8 +333,9 @@ public class FlightsTab extends TabBase {
 	/**
 	 * 
 	 * @return JPanel that is the Center panel of the greater South panel
+	 * @throws FileNotFoundException 
 	 */
-	private JPanel createSouthCenterPanel() {
+	private JPanel createSouthCenterPanel() throws FileNotFoundException {
 		// build airport codes
 		String[] airportCodes = new String[this.manager.getAirports().size()];
 		manager.getAirports().toArray(airportCodes);
