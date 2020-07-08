@@ -33,10 +33,9 @@ public class Flight {
 	 */
 	public Flight() {
 	}
-	public Flight(String code, String airlineName, String from, String to, String weekday, String time, int seats,
+	public Flight(String code, String from, String to, String weekday, String time, int seats,
 			double costPerSeat) {
 		this.code = code;
-		this.airlineName = airlineName;
 		this.from = from;
 		this.to = to;
 		this.weekday = weekday;
@@ -58,6 +57,7 @@ public class Flight {
 	 * @return airlineName Name of airline
 	 */
 	public String getAirline() {
+		parseCode(code);
 		return airlineName;
 	}
 	
@@ -185,13 +185,32 @@ public class Flight {
 		return isDomestic;
 	}
 	public void parseCode(String code) {
-		//parse code method??
+		
+		String codeToParse = getCode();
+		
+		char c1 = codeToParse.charAt(0);
+		char c2 = codeToParse.charAt(1);
+		if (c1 == 'O' && c2 == 'A') {
+			airlineName = "Otto Airlines";
+		}
+		else if (c1 == 'C' && c2 == 'A') {
+			airlineName = "Conned Air";
+		}
+		else if (c1 == 'T' && c2 == 'B') {
+			airlineName = "Try a Bus Airways";
+		}
+		else if (c1 == 'V' && c2 == 'A') {
+			airlineName = "Vertical Airways";
+		}
+		else {
+			airlineName = "Not a valid Airline";
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%s%s%s%s%s%s%s%s%s%s%s%d%s%2.2f",getCode(), ", ", "From: ", getFrom() , " To: ", getTo(), "Day: ", getWeekday(),
-				" Time: ", getTime(), " Seats: ", getSeats(), "Cost Per Seat: ", getCostPerSeat());
+		return String.format("%s%s%s%s%s%s%s%s%s%s%s%s%d%s%2.2f",getCode(), ", Airline: ", getAirline() , " From: ", getFrom() , " To: ", getTo(), " Day: ",
+				getWeekday(), " Time: ", getTime(), " Seats: ", getSeats(), " Cost Per Seat: ", getCostPerSeat());
 		
 	}
 	

@@ -56,8 +56,7 @@ public class FlightManager {
 	 * @throws FileNotFoundException 
 	 */
 	public ArrayList<Flight> getFlights() throws FileNotFoundException{
-		FlightManager fm = new FlightManager();
-		fm.populateFlights();
+		populateFlights();
 		return flights;
 	}
 	
@@ -115,24 +114,6 @@ public class FlightManager {
 		
 		while (inFile.hasNext()) {
 			String flightCode = inFile.next();
-			String airline;
-			char c1 = flightCode.charAt(0);
-			char c2 = flightCode.charAt(1);
-			if (c1 == 'O' && c2 == 'A') {
-				airline = "Otto Airlines";
-			}
-			else if (c1 == 'C' && c2 == 'A') {
-				airline = "Conned Air";
-			}
-			else if (c1 == 'T' && c2 == 'B') {
-				airline = "Try a Bus Airways";
-			}
-			else if (c1 == 'V' && c2 == 'A') {
-				airline = "Vertical Airways";
-			}
-			else {
-				airline = "Not a valid Airline";
-			}
 			String from = inFile.next();
 			String to = inFile.next();
 			String weekday = inFile.next();
@@ -141,7 +122,7 @@ public class FlightManager {
 			double costPerSeat = inFile.nextDouble();
 			inFile.nextLine();
 			
-			Flight f = new Flight(flightCode, airline, from, to, weekday, time, seats, costPerSeat);
+			Flight f = new Flight(flightCode, from, to, weekday, time, seats, costPerSeat);
 			
 			flights.add(f);
 		}//loop process all flight objects

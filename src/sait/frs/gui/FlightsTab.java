@@ -31,6 +31,7 @@ public class FlightsTab extends TabBase {
 	 * Instance of travel manager.
 	 */
 	private FlightManager manager;
+	private ReservationsManager reservationManager;
 
 	/**
 	 * List of flights.
@@ -65,8 +66,9 @@ public class FlightsTab extends TabBase {
 	/**
 	 * Creates the components for flights tab.
 	 * @param Manager passes in manager
+	 * @throws FileNotFoundException 
 	 */
-	public FlightsTab(FlightManager manager) {
+	public FlightsTab(FlightManager manager) throws FileNotFoundException {
 		this.manager = manager;
 		panel.setLayout(new BorderLayout());
 
@@ -428,7 +430,7 @@ public class FlightsTab extends TabBase {
 				String name = nameSearch.getText();
 				String citizenship = citizenshipSearch.getText();
 				try {
-					manager.makeReservation(flight, name, citizenship);
+					reservationManager.makeReservation(flight, name, citizenship);
 					Reservation r1 = new Reservation(flight, name, citizenship);
 					JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode());
 					manager.persist();
