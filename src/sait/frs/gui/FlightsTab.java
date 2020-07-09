@@ -69,7 +69,7 @@ public class FlightsTab extends TabBase {
 	 * @param Manager passes in manager
 	 * @throws FileNotFoundException 
 	 */
-	public FlightsTab(FlightManager manager) throws FileNotFoundException {
+	public FlightsTab(FlightManager flightManager) throws FileNotFoundException {
 		this.manager = manager;
 		panel.setLayout(new BorderLayout());
 
