@@ -2,7 +2,7 @@ package sait.frs.problemdomain;
 
 import java.io.RandomAccessFile;
 
-import sait.frs.manager.Flight;
+import sait.frs.problemdomain.Flight;
 
 public class Reservation {
 	 private String code;

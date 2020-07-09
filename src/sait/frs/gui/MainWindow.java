@@ -103,8 +103,9 @@ public class MainWindow extends JFrame
 	/**
 	 * Creates the center panel.
 	 * @return JPanel that goes in center.
+	 * @throws FileNotFoundException 
 	 */
-	private JPanel createCenterPanel() 
+	private JPanel createCenterPanel() throws FileNotFoundException 
 	{
 		JPanel panel = new JPanel();
 		
