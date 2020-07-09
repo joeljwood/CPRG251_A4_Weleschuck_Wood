@@ -11,11 +11,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import sait.frs.exception.InvalidCitizenshipException;
-import sait.frs.exception.InvalidNameException;
-import sait.frs.exception.NoMoreSeatsException;
-import sait.frs.exception.NullFlightException;
-import sait.frs.manager.Manager;
+//import sait.frs.exception.InvalidCitizenshipException;
+//import sait.frs.exception.InvalidNameException;
+//import sait.frs.exception.NoMoreSeatsException;
+//import sait.frs.exception.NullFlightException;
+//import sait.frs.manager.Manager;
 import sait.frs.manager.ReservationManager;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
@@ -142,9 +142,9 @@ public class ReservationsTab extends TabBase {
 			String citizenText = "";
 			
 			codeText = reservationList.getSelectedValue().getCode();
-			flightText = reservationList.getSelectedValue().getFlight().getCode();
-			airlineText = reservationList.getSelectedValue().getFlight().getAirline();
-			costText = Double.toString(reservationList.getSelectedValue().getFlight().getCostPerSeat());
+			//flightText = reservationList.getSelectedValue().getFlights().getCode();
+			//airlineText = reservationList.getSelectedValue().getFlights().getAirline();
+			//costText = Double.toString(reservationList.getSelectedValue().getFlights().getCostPerSeat());
 			nameText = reservationList.getSelectedValue().getName();
 			citizenText = reservationList.getSelectedValue().getCitizenship();
 			boolean activeStatus = reservationList.getSelectedValue().isActive();
@@ -416,27 +416,27 @@ public class ReservationsTab extends TabBase {
 
 			// codeSearchText,airlineSearchText,nameSearchText
 			// reserveTextArea
-			if (e.getSource() == findResButton) {
-				for (Reservation reservation : manager.findReservations(codeSearchText.getText(),
-						airlineSearchText.getText(), nameSearchText.getText())) {
-					reservationsModel.addElement(reservation);
-				}
+			//if (e.getSource() == findResButton) {
+				//for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
+						//airlineSearchText.getText(), nameSearchText.getText())) {
+					//reservationsModel.addElement(reservation);
+				//}
 
-			}
+			//}
 			if (e.getSource() == updateButton) {
 				Reservation reservation = reservationList.getSelectedValue();
-				try {
+				//try {
 					reservation.setName(nameReserveText.getText());
-				} catch (InvalidNameException e1) {
+				/*} catch (InvalidNameException e1) {
 					System.out.println(e1.getMessage());
 					e1.printStackTrace();
 				}
-				try {
+				try {*/
 					reservation.setCitizenship(citizenReserveText.getText());
-				} catch (InvalidCitizenshipException e1) {
+				/*} catch (InvalidCitizenshipException e1) {
 					System.out.println(e1.getMessage());
 					e1.printStackTrace();
-				}
+				}*/
 				String status = (String) statusReserveComboBox.getSelectedItem();
 				if (status.equals("active")) {
 					reservation.setActive(true);

@@ -10,12 +10,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import sait.frs.*;
-import sait.frs.exception.InvalidCitizenshipException;
-import sait.frs.exception.InvalidNameException;
-import sait.frs.exception.NoMoreSeatsException;
-import sait.frs.exception.NullFlightException;
+//import sait.frs.exception.InvalidCitizenshipException;
+//import sait.frs.exception.InvalidNameException;
+//import sait.frs.exception.NoMoreSeatsException;
+//import sait.frs.exception.NullFlightException;
 import sait.frs.manager.FlightManager;
-import sait.frs.manager.Manager;
+//import sait.frs.manager.Manager;
+import sait.frs.manager.ReservationManager;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
 /**
@@ -31,7 +32,7 @@ public class FlightsTab extends TabBase {
 	 * Instance of travel manager.
 	 */
 	private FlightManager manager;
-	private ReservationsManager reservationManager;
+	private ReservationManager reservationManager;
 
 	/**
 	 * List of flights.
@@ -429,12 +430,12 @@ public class FlightsTab extends TabBase {
 				Flight flight = flightsList.getSelectedValue();
 				String name = nameSearch.getText();
 				String citizenship = citizenshipSearch.getText();
-				try {
+				//try {
 					reservationManager.makeReservation(flight, name, citizenship);
 					Reservation r1 = new Reservation(flight, name, citizenship);
 					JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode());
-					manager.persist();
-				} catch (NullFlightException e1) {
+					//manager.persist();
+				/*} catch (NullFlightException e1) {
 					System.out.println(e1.getMessage());
 					System.out.println(e1.getStackTrace());
 				}catch (NoMoreSeatsException e2) {
@@ -448,7 +449,7 @@ public class FlightsTab extends TabBase {
 				}catch (InvalidCitizenshipException e4) {
 					System.out.println(e4.getMessage());
 					System.out.println(e4.getStackTrace());
-				}
+				}*/
 				
 			}
 		}

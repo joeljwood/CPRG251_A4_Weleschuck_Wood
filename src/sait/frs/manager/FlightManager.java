@@ -45,8 +45,9 @@ public class FlightManager {
 	 * @throws FileNotFoundException 
 	 */
 	public ArrayList<String> getAirports() throws FileNotFoundException {
-		FlightManager fm = new FlightManager();
-		fm.populateAirports();
+		//FlightManager fm = new FlightManager();
+		//fm.
+		populateAirports();
 		return airports;	
 	}
 	
@@ -56,6 +57,7 @@ public class FlightManager {
 	 * @throws FileNotFoundException 
 	 */
 	public ArrayList<Flight> getFlights() throws FileNotFoundException{
+
 		populateFlights();
 		return flights;
 	}
@@ -111,18 +113,20 @@ public class FlightManager {
 	private void populateFlights() throws FileNotFoundException{
 		Scanner inFile = new Scanner(new File(FLIGHTS_PATH));
 		inFile.useDelimiter (",");
-		
+		String line = inFile.nextLine();
+		String[] parts = line.split(",");
 		while (inFile.hasNext()) {
-			String flightCode = inFile.next();
-			String from = inFile.next();
-			String to = inFile.next();
-			String weekday = inFile.next();
-			String time = inFile.next();
-			int seats = inFile.nextInt();
-			double costPerSeat = inFile.nextDouble();
-			inFile.nextLine();
+			String flightCode = parts[0];
+			String from = parts[1];
+			String to = parts[2];
+			String weekday = parts[3];
+			String time = parts[4];
+			int seats = Integer.parseInt(parts[5]);
+			double seatCost = Double.parseDouble(parts[6]);
+			//inFile.nextLine();
 			
-			Flight f = new Flight(flightCode, from, to, weekday, time, seats, costPerSeat);
+			
+			Flight f = new Flight(flightCode, from, to, weekday, time, seats, seatCost);
 			
 			flights.add(f);
 		}//loop process all flight objects
