@@ -101,7 +101,7 @@ public class FlightManager {
 	public ArrayList<Flight> findFlights(String from, String to, String weekday){
 		ArrayList<Flight> foundFlights = new ArrayList<>();
 		for(Flight f1 : flights) {
-			if (f1.getFrom() == from && f1.getTo() == to && f1.getWeekday() == weekday) {
+			if (f1.getFrom().equals(from)  && f1.getTo().equals(to) && f1.getWeekday().equals(weekday)) {
 				foundFlights.add(f1);
 			}
 		}
@@ -113,9 +113,10 @@ public class FlightManager {
 	private void populateFlights() throws FileNotFoundException{
 		Scanner inFile = new Scanner(new File(FLIGHTS_PATH));
 		inFile.useDelimiter (",");
-		String line = inFile.nextLine();
-		String[] parts = line.split(",");
+		
 		while (inFile.hasNext()) {
+			String line = inFile.nextLine();
+			String[] parts = line.split(",");
 			String flightCode = parts[0];
 			String from = parts[1];
 			String to = parts[2];
@@ -141,10 +142,12 @@ public class FlightManager {
 		inFile.useDelimiter (",");
 		
 		while(inFile.hasNext()) {
-			//String airportCode = inFile.next();
-			String airportName = inFile.nextLine();
+			String line = inFile.nextLine();
+			String[] parts = line.split(",");
+			String airportCode = parts[0];
+			String airportName = parts[1];
 			//airports.add(airportCode); 
-			airports.add(airportName);
+			airports.add(airportCode);
 		}//loop to process all airports
 		inFile.close();
 	}

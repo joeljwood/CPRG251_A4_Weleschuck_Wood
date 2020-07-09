@@ -3,6 +3,7 @@ package sait.frs.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -31,7 +32,7 @@ public class FlightsTab extends TabBase {
 	/**
 	 * Instance of travel manager.
 	 */
-	private FlightManager manager;
+	private FlightManager flightManager;
 	private ReservationManager reservationManager;
 
 	/**
@@ -70,7 +71,7 @@ public class FlightsTab extends TabBase {
 	 * @throws FileNotFoundException 
 	 */
 	public FlightsTab(FlightManager flightManager) throws FileNotFoundException {
-		this.manager = manager;
+		this.flightManager = flightManager;
 		panel.setLayout(new BorderLayout());
 
 		JPanel northPanel = createNorthPanel();
@@ -340,11 +341,13 @@ public class FlightsTab extends TabBase {
 	 */
 	private JPanel createSouthCenterPanel() throws FileNotFoundException {
 		// build airport codes
-		String[] airportCodes = new String[this.manager.getAirports().size()];
-		manager.getAirports().toArray(airportCodes);
-		String[] daysOfWeek = { this.manager.WEEKDAY_ANY, this.manager.WEEKDAY_MONDAY, this.manager.WEEKDAY_TUESDAY,
-				this.manager.WEEKDAY_WEDNESDAY, this.manager.WEEKDAY_THURSDAY, this.manager.WEEKDAY_FRIDAY,
-				this.manager.WEEKDAY_SATURDAY, this.manager.WEEKDAY_SUNDAY };
+		ArrayList<String> airports = new ArrayList<>();
+		airports = this.flightManager.getAirports();
+		String[] airportCodes = new String[airports.size()];
+		airports.toArray(airportCodes);
+		String[] daysOfWeek = { this.flightManager.WEEKDAY_ANY, this.flightManager.WEEKDAY_MONDAY, this.flightManager.WEEKDAY_TUESDAY,
+				this.flightManager.WEEKDAY_WEDNESDAY, this.flightManager.WEEKDAY_THURSDAY, this.flightManager.WEEKDAY_FRIDAY,
+				this.flightManager.WEEKDAY_SATURDAY, this.flightManager.WEEKDAY_SUNDAY };
 
 		JPanel southCenterPanel = new JPanel();
 		southCenterPanel.setLayout(new GridBagLayout());
@@ -422,7 +425,7 @@ public class FlightsTab extends TabBase {
 				String weekday = (String) dayBox.getSelectedItem();
 				flightsModel.clear();
 
-				for (Flight flight : manager.findFlights(from, to, weekday)) {
+				for (Flight flight : flightManager.findFlights(from, to, weekday)) {
 					flightsModel.addElement(flight);
 				}
 			}

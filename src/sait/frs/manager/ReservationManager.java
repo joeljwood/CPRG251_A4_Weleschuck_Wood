@@ -58,13 +58,13 @@ public class ReservationManager {
 		return returnCode; 
 	}
 
-	public void persist() throws IOException {
+	/*public void persist() throws IOException {
 		RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
 		long position = randomFile.getFilePointer();
 		 if (search.equals(code)) { Reservation r1 = new Reservation(name,
 				  citizenship, flightCode, codeInFile, airline, cost, active); return r1; } }
 				  System.out.println("code not found"); randomFile.close(); return null;
-	}
+	}*/
 
 	private int getAvailableSeats(Flight flight) {
 		return flight.getSeats();

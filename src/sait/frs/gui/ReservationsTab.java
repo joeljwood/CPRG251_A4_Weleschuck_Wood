@@ -445,7 +445,7 @@ public class ReservationsTab extends TabBase {
 					reservation.setActive(true);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
 							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: active");
-				}else {
+				/*}else {
 					reservation.setActive(false);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
 							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: inactive");
@@ -455,9 +455,10 @@ public class ReservationsTab extends TabBase {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		}
 
 	}
+}
 }
