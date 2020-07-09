@@ -13,6 +13,10 @@ public class Reservation {
 	 private double cost;
 	 private boolean active;
 	
+	 public Reservation() {
+		 
+	 }
+	 
 	 public Reservation(Flight flight, String name, String citizenship) {
 		 this.name = name;
 		 this.citizenship = citizenship;

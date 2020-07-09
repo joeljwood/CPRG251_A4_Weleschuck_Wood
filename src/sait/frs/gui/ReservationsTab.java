@@ -3,6 +3,7 @@ package sait.frs.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -49,14 +50,14 @@ public class ReservationsTab extends TabBase {
 	/**
 	 * Instance of travel manager.
 	 */
-	private ReservationManager manager;
+	private ReservationManager ReservationManager;
 
 	/**
 	 * Creates the components for reservations tab.
 	 * @param manager
 	 */
 	public ReservationsTab(ReservationManager manager) {
-		this.manager = manager;
+		this.ReservationManager = manager;
 		panel.setLayout(new BorderLayout());
 
 		JPanel northPanel = createNorthPanel();
@@ -416,11 +417,13 @@ public class ReservationsTab extends TabBase {
 
 			// codeSearchText,airlineSearchText,nameSearchText
 			// reserveTextArea
+
 			//if (e.getSource() == findResButton) {
 				//for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
 						//airlineSearchText.getText(), nameSearchText.getText())) {
 					//reservationsModel.addElement(reservation);
 				//}
+
 
 			//}
 			if (e.getSource() == updateButton) {
@@ -447,7 +450,12 @@ public class ReservationsTab extends TabBase {
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
 							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: inactive");
 					}
-				manager.persist();
+				try {
+					ReservationManager.persist();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 
