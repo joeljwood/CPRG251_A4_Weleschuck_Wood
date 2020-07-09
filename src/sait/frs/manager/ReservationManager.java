@@ -4,7 +4,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
@@ -13,41 +15,55 @@ import sait.frs.problemdomain.Reservation;
 
 public class ReservationManager {
 	private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+	Scanner scan = new Scanner(System.in);
 
 	public ReservationManager() {
-		// constructor???
+
 	}
 
 	public Reservation makeReservation(Flight flight, String name, String citizenship) {
 		// add try catch for null or empty name and citiznship
 		// add try cathc to see if flight has seats availble
 		Reservation r1 = new Reservation(flight, name, citizenship);
+		reservations.add(r1);
 		return r1;
 
-		// random access write
-		/*
-		 * RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
-		 * for (Reservation ReservationArray: reservations) { randomFile.writeUTF();
-		 * System.out.println(ReservationArray.toString()); } randomFile.close();
-		 * System.out.println("Done.");
-		 */
 	}
 
-	/**public reservations findReservations(String code, String airline, String name){
-		if ((code.equals(code)) or (airline.equals(airline)) or (name.equals(name))) {
-			return reservations;
-		}else {
-	System.out.print("no reservation found");
+	public ArrayList<Reservation> findReservations(String code, String airline, String name) {
+		ArrayList<Reservation> foundReservations = new ArrayList<>();
+		for (Reservation r1 : reservations) {
+			// if(r1.getCode().equals(code)) and if(r1.getAirline().equals(airline)) and
+			// if(r1.getName().equals(name)){
+			if (r1.getCode().equals(code)) {
+				if (r1.getAirline().equals(airline)) {
+					if (r1.getName().equals(name)) {
+						foundReservations.add(r1);
+						return foundReservations;
+					}
+				}
+
+			}
 		}
+		return null;
 	}
 
-	public Reservation findReservationByCode(String Code) {
-		// write code here
-		return Reservation;
-	}*/
+	public Reservation findReservationByCode(String code) {
+		Reservation returnCode = new Reservation();
+		for (Reservation r1 : reservations) {
+			if (r1.getCode().equals(code)) {
+				returnCode = r1;
+			}
+		}
+		return returnCode; 
+	}
 
-	public void persist() {
-		// write code here which saves to file?
+	public void persist() throws IOException {
+		RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
+		long position = randomFile.getFilePointer();
+		 if (search.equals(code)) { Reservation r1 = new Reservation(name,
+				  citizenship, flightCode, codeInFile, airline, cost, active); return r1; } }
+				  System.out.println("code not found"); randomFile.close(); return null;
 	}
 
 	private int getAvailableSeats(Flight flight) {
@@ -102,7 +118,7 @@ public class ReservationManager {
 				for (int i = 0; i < 20 - airline.length(); i++) {
 					randomFile.readByte();
 				}
-				cost =Double.parseDouble(randomFile.readUTF());
+				cost = Double.parseDouble(randomFile.readUTF());
 				for (int i = 0; i < 20 - String.valueOf(cost).length(); i++) {
 					randomFile.readByte();
 				}
@@ -110,10 +126,11 @@ public class ReservationManager {
 				for (int i = 0; i < 20 - String.valueOf(active).length(); i++) {
 					randomFile.readByte();
 				}
+				Reservation r1 = new Reservation(flightCode, name, citizenship, code, airline, cost, active);
+				reservations.add(r1);
 			}
 			randomFile.close();
-			Reservation r1 = new Reservation(flightCode, name, citizenship, code, airline, cost, active);
-		
+
 		} catch (java.io.IOException e) {
 			e.getMessage();
 		}
