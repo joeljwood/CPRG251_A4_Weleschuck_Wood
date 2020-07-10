@@ -101,8 +101,13 @@ public class FlightManager {
 	public ArrayList<Flight> findFlights(String from, String to, String weekday){
 		ArrayList<Flight> foundFlights = new ArrayList<>();
 		for(Flight f1 : flights) {
-			if (f1.getFrom().equals(from)  && f1.getTo().equals(to) && f1.getWeekday().equals(weekday)) {
+			if(f1.getFrom().equals(from) && f1.getTo().equals(to) && weekday.equals(WEEKDAY_ANY )) {
 				foundFlights.add(f1);
+			}
+			else if (f1.getFrom().equals(from) && f1.getTo().equals(to) && f1.getWeekday().equals(weekday)) {	
+						foundFlights.add(f1);
+				
+				
 			}
 		}
 		return foundFlights;

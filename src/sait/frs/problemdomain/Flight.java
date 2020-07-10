@@ -209,7 +209,7 @@ public class Flight {
 	
 	@Override
 	public String toString() {
-		return String.format("%s%s%s%s%s%s%s%s%s%s%s%s%d%s%2.2f",getCode(), ", Airline: ", getAirline() , " From: ", getFrom() , " To: ", getTo(), " Day: ",
+		return String.format("%s%s%s%s%s%s%s%s%s%s%d%s%2.2f",getCode() , " From: ", getFrom() , " To: ", getTo(), " Day: ",
 				getWeekday(), " Time: ", getTime(), " Seats: ", getSeats(), " Cost Per Seat: ", getCostPerSeat());
 		
 	}
