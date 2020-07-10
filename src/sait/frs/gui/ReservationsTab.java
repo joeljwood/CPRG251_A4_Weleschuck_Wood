@@ -56,8 +56,8 @@ public class ReservationsTab extends TabBase {
 	 * Creates the components for reservations tab.
 	 * @param manager
 	 */
-	public ReservationsTab(ReservationManager manager) {
-		this.ReservationManager = manager;
+	public ReservationsTab(ReservationManager reservationManager) {
+		this.ReservationManager = reservationManager;
 		panel.setLayout(new BorderLayout());
 
 		JPanel northPanel = createNorthPanel();
@@ -141,6 +141,8 @@ public class ReservationsTab extends TabBase {
 			String costText = "";
 			String nameText = "";
 			String citizenText = "";
+			
+			
 			
 			codeText = reservationList.getSelectedValue().getCode();
 			//flightText = reservationList.getSelectedValue().getFlights().getCode();
@@ -418,14 +420,16 @@ public class ReservationsTab extends TabBase {
 			// codeSearchText,airlineSearchText,nameSearchText
 			// reserveTextArea
 
-			//if (e.getSource() == findResButton) {
-				//for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
-						//airlineSearchText.getText(), nameSearchText.getText())) {
-					//reservationsModel.addElement(reservation);
-				//}
+			if (e.getSource() == findResButton) {
+				reservationsModel.clear();
+				for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
+						airlineSearchText.getText(), nameSearchText.getText())) {
+					reservationsModel.addElement(reservation);
+				}
+			}
 
 
-			//}
+			
 			if (e.getSource() == updateButton) {
 				Reservation reservation = reservationList.getSelectedValue();
 				//try {

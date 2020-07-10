@@ -3,6 +3,7 @@ package sait.frs.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import sait.frs.*;
+import sait.frs.exception.InvalidCitezenshipException;
 //import sait.frs.exception.InvalidCitizenshipException;
 //import sait.frs.exception.InvalidNameException;
 //import sait.frs.exception.NoMoreSeatsException;
@@ -33,8 +35,8 @@ public class FlightsTab extends TabBase {
 	 * Instance of travel manager.
 	 */
 	private FlightManager flightManager;
-	private ReservationManager reservationManager;
-
+	private ReservationManager rm1 = new ReservationManager();
+	private Reservation r2 = new Reservation();
 	/**
 	 * List of flights.
 	 */
@@ -434,11 +436,22 @@ public class FlightsTab extends TabBase {
 				String name = nameSearch.getText();
 				String citizenship = citizenshipSearch.getText();
 				//try {
-					reservationManager.makeReservation(flight, name, citizenship);
-					Reservation r1 = new Reservation(flight, name, citizenship);
-					JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode());
-					//manager.persist();
-				/*} catch (NullFlightException e1) {
+					try {
+						Reservation r1 = rm1.makeReservation(flight, name, citizenship);
+						JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode() ); // returns null
+					} catch (IOException e1) {
+						System.out.println("reservationManger.makereservation did not work");
+						e1.printStackTrace();
+					}
+					System.out.println("no catch");
+					
+					try {
+						rm1.persist();
+					} catch (IOException e1) {
+						System.out.println("rm1.persist did not work");
+						e1.printStackTrace();
+					}
+				/**} catch (NullFlightException e1) {
 					System.out.println(e1.getMessage());
 					System.out.println(e1.getStackTrace());
 				}catch (NoMoreSeatsException e2) {
@@ -447,12 +460,15 @@ public class FlightsTab extends TabBase {
 					
 				}catch (InvalidNameException e3) {
 					System.out.println(e3.getMessage());
-					System.out.println(e3.getStackTrace());
+					System.out.println(e3.getStackTrace());*/
 					
-				}catch (InvalidCitizenshipException e4) {
+				/**}catch (InvalidCitezenshipException e4) {
 					System.out.println(e4.getMessage());
-					System.out.println(e4.getStackTrace());
-				}*/
+					System.out.println(e4.getStackTrace());*/
+				//}catch(Exception e1) {
+				//	System.out.println("reserveButton did not work");
+				//	e1.getMessage();
+				//}
 				
 			}
 		}

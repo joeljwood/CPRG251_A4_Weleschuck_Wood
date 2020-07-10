@@ -18,14 +18,17 @@ public class ReservationManager {
 	Scanner scan = new Scanner(System.in);
 
 	public ReservationManager() {
-
+		populateFromBinary();
 	}
 
-	public Reservation makeReservation(Flight flight, String name, String citizenship) {
+	public Reservation makeReservation(Flight flight, String name, String citizenship) throws IOException {
 		// add try catch for null or empty name and citiznship
 		// add try cathc to see if flight has seats availble
-		Reservation r1 = new Reservation(flight, name, citizenship);
+		String resCode = generateReservationCode(flight);
+		Reservation r1 = new Reservation(flight, name, citizenship, resCode);
+		
 		reservations.add(r1);
+		persist();
 		return r1;
 
 	}
@@ -33,19 +36,17 @@ public class ReservationManager {
 	public ArrayList<Reservation> findReservations(String code, String airline, String name) {
 		ArrayList<Reservation> foundReservations = new ArrayList<>();
 		for (Reservation r1 : reservations) {
-			// if(r1.getCode().equals(code)) and if(r1.getAirline().equals(airline)) and
-			// if(r1.getName().equals(name)){
 			if (r1.getCode().equals(code)) {
 				if (r1.getAirline().equals(airline)) {
 					if (r1.getName().equals(name)) {
 						foundReservations.add(r1);
-						return foundReservations;
+						
 					}
 				}
 
 			}
 		}
-		return null;
+		return foundReservations;
 	}
 
 	public Reservation findReservationByCode(String code) {
@@ -58,16 +59,48 @@ public class ReservationManager {
 		return returnCode; 
 	}
 
-	/*public void persist() throws IOException {
-		RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
-		long position = randomFile.getFilePointer();
-		 if (search.equals(code)) { Reservation r1 = new Reservation(name,
-				  citizenship, flightCode, codeInFile, airline, cost, active); return r1; } }
-				  System.out.println("code not found"); randomFile.close(); return null;
-	}*/
+	public void persist() throws IOException {
+		RandomAccessFile randomFile = new RandomAccessFile("./res/reservations.dat", "rw");
+		//add seek(randomFile.lenght())
+		long position = 0;
+		randomFile.seek(position);
+		position = randomFile.getFilePointer();
+		for (Reservation r1 : reservations) { // not sure if this will make one big line or multiple. . .
+			randomFile.seek(position);
+			randomFile.writeUTF(r1.getName());
+			 for (int i = 0;i <20-r1.getName().length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(r1.getCitizenship());
+			 for (int i = 0;i <20-r1.getCitizenship().length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(r1.getFlightCode());
+			 for (int i = 0;i <20-r1.getFlightCode().length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(r1.getCode());
+			 for (int i = 0;i <20-r1.getCode().length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(r1.getAirline());
+			 for (int i = 0;i <20-r1.getAirline().length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(String.valueOf(r1.getCost()));
+			 for (int i = 0;i <20-String.valueOf(r1.getCost()).length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			randomFile.writeUTF(String.valueOf(r1.isActive()));
+			 for (int i = 0;i <20-String.valueOf(r1.isActive()).length(); i++ ) {
+				 randomFile.writeByte(20);
+			 }
+			position = randomFile.getFilePointer();
+		}
+	}
 
 	private int getAvailableSeats(Flight flight) {
-		return flight.getSeats();
+		return flight.getSeats() - 1;// not sure how we know how many seats are available
 	}
 
 	private String generateReservationCode(Flight flight) {
@@ -92,7 +125,7 @@ public class ReservationManager {
 		boolean active = true;
 
 		try {
-			RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
+			RandomAccessFile randomFile = new RandomAccessFile("./res/reservations.dat", "rw");
 			long fileSize = randomFile.length();
 			randomFile.seek(0);
 			long NumRecords = fileSize / record;
@@ -132,6 +165,7 @@ public class ReservationManager {
 			randomFile.close();
 
 		} catch (java.io.IOException e) {
+			System.out.println("random access file empty");
 			e.getMessage();
 		}
 	}

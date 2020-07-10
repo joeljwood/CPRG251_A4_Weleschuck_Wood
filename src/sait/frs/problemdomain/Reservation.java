@@ -26,7 +26,7 @@ public class Reservation {
 		 this.cost = getCost();
 		 this.active = isActive();
 		 
-		 try {
+		 /**try {
 			 RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
 			 long  fileSize = randomFile.length();
 			 randomFile.seek(fileSize);
@@ -63,7 +63,7 @@ public class Reservation {
 			 
 		 }catch (java.io.IOException e) {
 				e.getMessage();
-			}
+			}*/
 		 }
 		 
 
@@ -78,10 +78,25 @@ public class Reservation {
 		 this.active = active;
 	 }
 	 
+	 public Reservation(Flight flight, String name, String citizenship, String code) {
+		 this.name = name;
+		 this.citizenship = citizenship;
+		 this.flightCode  = flight.getCode();
+		 this.code = code;
+		 this.airline = flight.getAirline();
+		 this.cost = getCost();
+		 this.active = isActive();
+	 }
+	 
+	 
 	 
 	 public String getCode() {
 		 return code; 
 	 }
+
+	public void setCode(String string) {
+		this.code = code;
+	}
 
 	public String getFlightCode() {
 		return flightCode;
