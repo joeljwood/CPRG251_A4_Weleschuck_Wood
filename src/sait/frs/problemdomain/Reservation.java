@@ -24,7 +24,7 @@ public class Reservation {
 		 this.flightCode  = flight.getCode();
 		 this.code = getCode();
 		 this.airline = getAirline();
-		 this.cost = getCost();
+		 this.cost = flight.getCostPerSeat();
 		 this.active = isActive();
 		 
 		 /**try {
@@ -85,8 +85,8 @@ public class Reservation {
 		 this.flightCode  = flight.getCode();
 		 this.code = code;
 		 this.airline = flight.getAirline();
-		 this.cost = getCost();
-		 this.active = isActive();
+		 this.cost = flight.getCostPerSeat();
+		 this.active = true;
 	 }
 	 
 	 
@@ -135,12 +135,16 @@ public class Reservation {
 		this.active = active;
 	}
 
-	@Override
+	/**@Override
 	public String toString() {
 		return "Reservation [code=" + code + ", flightCode=" + flightCode + ", airline=" + airline + ", name=" + name
 				+ ", citizenship=" + citizenship + ", cost=" + cost + ", active=" + active + "]";
-	}
+	}*/
 	
+	@Override
+	public String toString() {
+		return  code ;
+	}
 	 
 	 
 }

@@ -25,6 +25,7 @@ import sait.frs.manager.FlightManager;
 import sait.frs.manager.ReservationManager;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
+
 /**
  * @author Joel Wood And Zennon Weleschuck
  */
@@ -72,8 +73,9 @@ public class FlightsTab extends TabBase {
 
 	/**
 	 * Creates the components for flights tab.
+	 * 
 	 * @param Manager passes in manager
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public FlightsTab(FlightManager flightManager) throws FileNotFoundException {
 		this.flightManager = flightManager;
@@ -113,7 +115,6 @@ public class FlightsTab extends TabBase {
 		JPanel panel = new JPanel();
 
 		panel.setLayout(new BorderLayout());
-		
 
 		flightsModel = new DefaultListModel<>();
 		flightsList = new JList<>(flightsModel);
@@ -132,14 +133,44 @@ public class FlightsTab extends TabBase {
 		panel.add(eastPanel, BorderLayout.EAST);
 		return panel;
 	}
-	private class MyListSelectionListener implements ListSelectionListener
-	{
+
+	private class MyListSelectionListener implements ListSelectionListener {
 		/**
 		 * Called when user selects an item in the JList.
 		 */
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			//returnText();
+			try {
+				returnText();
+			} catch (InvalidFlightCodeException e1) {
+
+				e1.printStackTrace();
+			}
+		}
+
+		/**
+		 * This is the method for displaying information in fields
+		 * 
+		 * @throws InvalidFlightCodeException
+		 */
+		private void returnText() throws InvalidFlightCodeException {
+			String flightText = "";
+			String airlineText = "";
+			String dayText = "";
+			String timeText = "";
+			double costText = 0;
+			flightText = flightsList.getSelectedValue().getCode();
+			airlineText = flightsList.getSelectedValue().getAirline();
+			dayText = flightsList.getSelectedValue().getWeekday();
+			timeText = flightsList.getSelectedValue().getTime();
+			costText = flightsList.getSelectedValue().getCostPerSeat();
+			String cost = Double.toString(costText);
+
+			flightSearch.setText(flightText);
+			airlineSearch.setText(airlineText);
+			daySearch.setText(dayText);
+			timeSearch.setText(timeText);
+			costSearch.setText(cost);
 		}
 	}
 
@@ -301,7 +332,7 @@ public class FlightsTab extends TabBase {
 	private JPanel createCenterEastSouth() {
 		JPanel panel = new JPanel();
 		reserveButton = new JButton("Reserve");
-		reserveButton.addActionListener(new ButtonListener()); 
+		reserveButton.addActionListener(new ButtonListener());
 		panel.add(reserveButton, BorderLayout.CENTER);
 		return panel;
 	}
@@ -309,7 +340,7 @@ public class FlightsTab extends TabBase {
 	/**
 	 * 
 	 * @return JPanel that goes in the south
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	private JPanel createSouthPanel() throws FileNotFoundException {
 		// calls southNorth, southCenter, southSouth
@@ -342,7 +373,7 @@ public class FlightsTab extends TabBase {
 	/**
 	 * 
 	 * @return JPanel that is the Center panel of the greater South panel
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	private JPanel createSouthCenterPanel() throws FileNotFoundException {
 		// build airport codes
@@ -350,8 +381,9 @@ public class FlightsTab extends TabBase {
 		airports = this.flightManager.getAirports();
 		String[] airportCodes = new String[airports.size()];
 		airports.toArray(airportCodes);
-		String[] daysOfWeek = { this.flightManager.WEEKDAY_ANY, this.flightManager.WEEKDAY_MONDAY, this.flightManager.WEEKDAY_TUESDAY,
-				this.flightManager.WEEKDAY_WEDNESDAY, this.flightManager.WEEKDAY_THURSDAY, this.flightManager.WEEKDAY_FRIDAY,
+		String[] daysOfWeek = { this.flightManager.WEEKDAY_ANY, this.flightManager.WEEKDAY_MONDAY,
+				this.flightManager.WEEKDAY_TUESDAY, this.flightManager.WEEKDAY_WEDNESDAY,
+				this.flightManager.WEEKDAY_THURSDAY, this.flightManager.WEEKDAY_FRIDAY,
 				this.flightManager.WEEKDAY_SATURDAY, this.flightManager.WEEKDAY_SUNDAY };
 
 		JPanel southCenterPanel = new JPanel();
@@ -413,13 +445,15 @@ public class FlightsTab extends TabBase {
 		SouthSouthPanel.add(findFlightsButton);
 		return SouthSouthPanel;
 	}
-/**
- * 
- * ButtonListener class is an ActionListener that for the find flights and Reserve tabs
- *
- */
+
+	/**
+	 * 
+	 * ButtonListener class is an ActionListener that for the find flights and
+	 * Reserve tabs
+	 *
+	 */
 	private class ButtonListener implements ActionListener {
-		
+
 		public void actionPerformed(ActionEvent e) {
 
 			// Get the action command.
@@ -429,55 +463,61 @@ public class FlightsTab extends TabBase {
 				String to = (String) toBox.getSelectedItem();
 				String weekday = (String) dayBox.getSelectedItem();
 				flightsModel.clear();
-				for (Flight flight : flightManager.findFlights(from, to, weekday)) {
-					flightsModel.addElement(flight);
+				try {
+					for (Flight flight : flightManager.findFlights(from, to, weekday)) {
+						flightsModel.addElement(flight);
+					}
+				} catch (NullFlightException e1) {
+					e1.getMessage();
+					e1.printStackTrace();
 				}
 			}
-			if(e.getSource() == reserveButton) {
+			
+			if (e.getSource() == reserveButton) {
 				Flight flight = flightsList.getSelectedValue();
-				String name = nameSearch.getText();
-				String citizenship = citizenshipSearch.getText();
 				try {
-					rm1.makeReservation(flight, name, citizenship);
-					Reservation r1 = new Reservation(flight, name, citizenship);
-					JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode());
-					rm1.persist();
-				//need more catches here
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InvalidFlightCodeException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+					String name = nameSearch.getText();
+					if (name.equals(null) || name.contentEquals("")) {
+						JOptionPane.showMessageDialog(null, "You Must Enter a Name");
+						throw new InvalidNameException();
+					}
+					String citizenship = citizenshipSearch.getText();
+					if (citizenship.contentEquals(null) || citizenship.equals("")) {
+						JOptionPane.showMessageDialog(null, "You Must Enter a Citizenship");
+						throw new InvalidCitizenshipException();
+					}
+					 
+					try {
+						Reservation r1 = rm1.makeReservation(flight, name, citizenship);
+						JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode() );
+					} catch (InvalidFlightCodeException e2) {
+						e2.printStackTrace();
+					}
+				} // returns
+					// null
 				
+				// System.out.println("no catch");
+				catch (InvalidNameException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidCitizenshipException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}catch (IOException e3) {
+					System.out.println("reservationManger.makereservation did not work");
+					e3.printStackTrace();
+				}
+
+				try {
+					rm1.persist();
+					//System.out.print("wrote and persisted data from the flights tab, reserve button");
+				} catch (IOException e4) {
+					//System.out.println("rm1.persist did not work");
+					e4.printStackTrace();
+				} catch (Exception e5) {
+					e5.getMessage();
+				}
 			}
 		}
 	}
-
-	/**
-	 * This is the method for displaying information in fields
-	 * @throws InvalidFlightCodeException 
-	 */
-	private void returnText() throws InvalidFlightCodeException {
-		String flightText = "";
-		String airlineText = "";
-		String dayText = "";
-		String timeText = "";
-		double costText = 0;
-		flightText= flightsList.getSelectedValue().getCode();
-		airlineText = flightsList.getSelectedValue().getAirline();
-		dayText = flightsList.getSelectedValue().getWeekday();
-		timeText = flightsList.getSelectedValue().getTime();
-		costText = flightsList.getSelectedValue().getCostPerSeat();
-		String cost = Double.toString(costText);
-		
-		flightSearch.setText(flightText);
-		airlineSearch.setText(airlineText);
-		daySearch.setText(dayText);
-		timeSearch.setText(timeText);
-		costSearch.setText(cost);
-	}
 }
-
-

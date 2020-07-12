@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import sait.frs.exception.NullFlightException;
 import sait.frs.problemdomain.Flight;
 
 /**
@@ -97,8 +98,9 @@ public class FlightManager {
 	 * @param to To airport
 	 * @param weekday Day of week (one of WEEKDAY_* constants). Use WEEKDAY_ANY for any day of the week.
 	 * @return flights Any found Flight objects
+	 * @throws NullFlightException 
 	 */
-	public  ArrayList<Flight> findFlights(String from, String to, String weekday){
+	public  ArrayList<Flight> findFlights(String from, String to, String weekday) throws NullFlightException{
 		ArrayList<Flight> foundFlights = new ArrayList<>();
 		for(Flight f1 : flights) {
 			if(f1.getFrom().equals(from) && f1.getTo().equals(to) && weekday.equals(WEEKDAY_ANY )) {
@@ -106,9 +108,10 @@ public class FlightManager {
 			}
 			else if (f1.getFrom().equals(from) && f1.getTo().equals(to) && f1.getWeekday().equals(weekday)) {	
 						foundFlights.add(f1);
-				
-				
 			}
+		}
+		if(foundFlights.equals(null)) {
+			throw new NullFlightException();
 		}
 		return foundFlights;
 	}

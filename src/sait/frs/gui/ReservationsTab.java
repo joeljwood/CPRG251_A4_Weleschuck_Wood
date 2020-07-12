@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.naming.InvalidNameException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -52,6 +53,7 @@ public class ReservationsTab extends TabBase {
 	 * Instance of travel manager.
 	 */
 	private ReservationManager ReservationManager;
+	private Reservation reservation;
 
 	/**
 	 * Creates the components for reservations tab.
@@ -146,9 +148,9 @@ public class ReservationsTab extends TabBase {
 			
 			
 			codeText = reservationList.getSelectedValue().getCode();
-			//flightText = reservationList.getSelectedValue().getFlights().getCode();
-			//airlineText = reservationList.getSelectedValue().getFlights().getAirline();
-			//costText = Double.toString(reservationList.getSelectedValue().getFlights().getCostPerSeat());
+			flightText = reservationList.getSelectedValue().getFlightCode();
+			airlineText = reservationList.getSelectedValue().getAirline();
+			costText = Double.toString(reservationList.getSelectedValue().getCost());
 			nameText = reservationList.getSelectedValue().getName();
 			citizenText = reservationList.getSelectedValue().getCitizenship();
 			boolean activeStatus = reservationList.getSelectedValue().isActive();
@@ -422,26 +424,50 @@ public class ReservationsTab extends TabBase {
 			// reserveTextArea
 
 			if (e.getSource() == findResButton) {
+				ReservationManager.populateFromBinary();
 				reservationsModel.clear();
-				for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
+				ReservationManager.findReservations(codeSearchText.getText(),airlineSearchText.getText(),nameSearchText.getText());
+				for (Reservation r1 : ReservationManager.findReservations(codeSearchText.getText(),airlineSearchText.getText(),nameSearchText.getText())){
+					reservationsModel.addElement(r1);
+						 }
+				}
+				
+				/**for (Reservation reservation : ReservationManager.findReservations
+				 * (codeSearchText.getText(),
 						airlineSearchText.getText(), nameSearchText.getText())) {
 					reservationsModel.addElement(reservation);
-				}
-			}
+				}*/
+			
 
 
 			
 			if (e.getSource() == updateButton) {
-				Reservation reservation = reservationList.getSelectedValue();
-				//try {
-					reservation.setName(nameReserveText.getText());
+				Reservation r1 = reservationList.getSelectedValue();
+				reservation.setName(nameReserveText.getText());
 				reservation.setCitizenship(citizenReserveText.getText());
+
+				r1.setName(nameReserveText.getText());
+				r1.setCitizenship(citizenReserveText.getText());
+//>>>>>>> branch 'master' of https://github.com/joeljwood/CPRG251_A4_Weleschuck_Wood.git
 				String status = (String) statusReserveComboBox.getSelectedItem();
 				if (status.equals("active")) {
-					reservation.setActive(true);
+					r1.setActive(true);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
-							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: active");
-				/*}else {
+							+ r1.getName() + "   Citizenship: " + r1.getCitizenship() + "   Status: active");
+				}
+				if (status.equals("inactive")) {
+					r1.setActive(false);
+					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
+							+ r1.getName() + "   Citizenship: " + r1.getCitizenship() + "   Status: inactive");
+				}
+	
+					try {
+						ReservationManager.persist();
+					} catch (IOException e1) {
+						System.out.println("persist in update button had an error");
+						e1.printStackTrace();
+					}
+				finally {
 					reservation.setActive(false);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
 							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: inactive");
@@ -451,10 +477,12 @@ public class ReservationsTab extends TabBase {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}*/
-			}
-		}
+				}
+			
+		
 
-	}
+	}	
 }
 }
+}
+
