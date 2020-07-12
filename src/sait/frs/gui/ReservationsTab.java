@@ -443,8 +443,8 @@ public class ReservationsTab extends TabBase {
 			
 			if (e.getSource() == updateButton) {
 				Reservation r1 = reservationList.getSelectedValue();
-				reservation.setName(nameReserveText.getText());
-				reservation.setCitizenship(citizenReserveText.getText());
+				//reservation.setName(nameReserveText.getText());
+				//reservation.setCitizenship(citizenReserveText.getText());
 
 				r1.setName(nameReserveText.getText());
 				r1.setCitizenship(citizenReserveText.getText());
@@ -467,15 +467,14 @@ public class ReservationsTab extends TabBase {
 						System.out.println("persist in update button had an error");
 						e1.printStackTrace();
 					}
-				finally {
+				/*finally {
 					reservation.setActive(false);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
 							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: inactive");
-					}
+					}*/
 				try {
 					ReservationManager.persist();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			

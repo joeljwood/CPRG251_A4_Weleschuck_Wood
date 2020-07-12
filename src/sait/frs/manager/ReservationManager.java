@@ -11,6 +11,7 @@ import java.io.RandomAccessFile;
 import java.util.*;
 
 import sait.frs.exception.InvalidFlightCodeException;
+import sait.frs.exception.NoMoreSeatsException;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
 
@@ -114,8 +115,14 @@ public class ReservationManager extends Reservation {
 		System.out.println("Persist method: saved arraylist to random file");
 	}
 
-	private int getAvailableSeats(Flight flight) {
-		return flight.getSeats() - 1;// not sure how we know how many seats are available
+	private int getAvailableSeats(Flight flight) throws NoMoreSeatsException {
+		int availableSeats = flight.getSeats() - 1;
+		if(availableSeats > 0) {
+			return availableSeats;
+		}
+		else {
+			throw new NoMoreSeatsException();
+		}
 	}
 
 	private String generateReservationCode(Flight flight) {

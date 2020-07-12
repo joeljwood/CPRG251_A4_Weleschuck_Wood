@@ -194,22 +194,22 @@ public class Flight {
 		
 		char c1 = codeToParse.charAt(0);
 		char c2 = codeToParse.charAt(1);
-		if (c1 == 'O' && c2 == 'A') {
-			airlineName = "Otto Airlines";
+			if (c1 == 'O' && c2 == 'A') {
+				airlineName = "Otto Airlines";
+			}
+			else if (c1 == 'C' && c2 == 'A') {
+				airlineName = "Conned Air";
+			}
+			else if (c1 == 'T' && c2 == 'B') {
+				airlineName = "Try a Bus Airways";
+			}
+			else if (c1 == 'V' && c2 == 'A') {
+				airlineName = "Vertical Airways";
+			}
+			else {
+				throw new InvalidFlightCodeException();
+			}
 		}
-		else if (c1 == 'C' && c2 == 'A') {
-			airlineName = "Conned Air";
-		}
-		else if (c1 == 'T' && c2 == 'B') {
-			airlineName = "Try a Bus Airways";
-		}
-		else if (c1 == 'V' && c2 == 'A') {
-			airlineName = "Vertical Airways";
-		}
-		else {
-			throw new InvalidFlightCodeException();
-		}
-	}
 	
 	@Override
 	public String toString() {

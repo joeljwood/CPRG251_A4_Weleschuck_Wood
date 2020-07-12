@@ -348,7 +348,7 @@ public class FlightsTab extends TabBase {
 		panel.setLayout(new BorderLayout());
 
 		JPanel southNorthPanel = createSouthNorthPanel();
-		panel.add(southNorthPanel, BorderLayout.NORTH);// ,
+		panel.add(southNorthPanel, BorderLayout.NORTH);
 
 		JPanel southCenterPanel = createSouthCenterPanel();
 		panel.add(southCenterPanel, BorderLayout.CENTER);
@@ -482,7 +482,7 @@ public class FlightsTab extends TabBase {
 						throw new InvalidNameException();
 					}
 					String citizenship = citizenshipSearch.getText();
-					if (citizenship.contentEquals(null) || citizenship.equals("")) {
+					if (citizenship.equals(null) || citizenship.equals("")) {
 						JOptionPane.showMessageDialog(null, "You Must Enter a Citizenship");
 						throw new InvalidCitizenshipException();
 					}
@@ -493,15 +493,12 @@ public class FlightsTab extends TabBase {
 					} catch (InvalidFlightCodeException e2) {
 						e2.printStackTrace();
 					}
-				} // returns
-					// null
-				
-				// System.out.println("no catch");
+				} 
 				catch (InvalidNameException e1) {
-					// TODO Auto-generated catch block
+					e1.getMessage();
 					e1.printStackTrace();
 				} catch (InvalidCitizenshipException e1) {
-					// TODO Auto-generated catch block
+					e1.getMessage();
 					e1.printStackTrace();
 				}catch (IOException e3) {
 					System.out.println("reservationManger.makereservation did not work");
