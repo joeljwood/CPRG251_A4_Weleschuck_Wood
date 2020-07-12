@@ -145,9 +145,9 @@ public class ReservationsTab extends TabBase {
 			
 			
 			codeText = reservationList.getSelectedValue().getCode();
-			//flightText = reservationList.getSelectedValue().getFlights().getCode();
-			//airlineText = reservationList.getSelectedValue().getFlights().getAirline();
-			//costText = Double.toString(reservationList.getSelectedValue().getFlights().getCostPerSeat());
+			flightText = reservationList.getSelectedValue().getFlightCode();
+			airlineText = reservationList.getSelectedValue().getAirline();
+			costText = Double.toString(reservationList.getSelectedValue().getCost());
 			nameText = reservationList.getSelectedValue().getName();
 			citizenText = reservationList.getSelectedValue().getCitizenship();
 			boolean activeStatus = reservationList.getSelectedValue().isActive();
@@ -421,34 +421,55 @@ public class ReservationsTab extends TabBase {
 			// reserveTextArea
 
 			if (e.getSource() == findResButton) {
+				ReservationManager.populateFromBinary();
 				reservationsModel.clear();
-				for (Reservation reservation : ReservationManager.findReservations(codeSearchText.getText(),
+				ReservationManager.findReservations(codeSearchText.getText(),airlineSearchText.getText(),nameSearchText.getText());
+				for (Reservation r1 : ReservationManager.findReservations(codeSearchText.getText(),airlineSearchText.getText(),nameSearchText.getText())){
+					reservationsModel.addElement(r1);
+						 }
+				}
+				
+				/**for (Reservation reservation : ReservationManager.findReservations
+				 * (codeSearchText.getText(),
 						airlineSearchText.getText(), nameSearchText.getText())) {
 					reservationsModel.addElement(reservation);
-				}
-			}
+				}*/
+			
 
 
 			
 			if (e.getSource() == updateButton) {
-				Reservation reservation = reservationList.getSelectedValue();
+				Reservation r1 = reservationList.getSelectedValue();
 				//try {
-					reservation.setName(nameReserveText.getText());
+				r1.setName(nameReserveText.getText());
 				/*} catch (InvalidNameException e1) {
 					System.out.println(e1.getMessage());
 					e1.printStackTrace();
 				}
 				try {*/
-					reservation.setCitizenship(citizenReserveText.getText());
+				r1.setCitizenship(citizenReserveText.getText());
 				/*} catch (InvalidCitizenshipException e1) {
 					System.out.println(e1.getMessage());
 					e1.printStackTrace();
 				}*/
 				String status = (String) statusReserveComboBox.getSelectedItem();
 				if (status.equals("active")) {
-					reservation.setActive(true);
+					r1.setActive(true);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
-							+ reservation.getName() + "   Citizenship: " + reservation.getCitizenship() + "   Status: active");
+							+ r1.getName() + "   Citizenship: " + r1.getCitizenship() + "   Status: active");
+				}
+				if (status.equals("inactive")) {
+					r1.setActive(false);
+					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
+							+ r1.getName() + "   Citizenship: " + r1.getCitizenship() + "   Status: inactive");
+				}
+	
+					try {
+						ReservationManager.persist();
+					} catch (IOException e1) {
+						System.out.println("persist in update button had an error");
+						e1.printStackTrace();
+					}
 				/*}else {
 					reservation.setActive(false);
 					JOptionPane.showMessageDialog(null, "Reservation updated, name: " 
@@ -465,4 +486,4 @@ public class ReservationsTab extends TabBase {
 
 	}
 }
-}
+

@@ -35,8 +35,19 @@ public class ReservationManager {
 
 	public ArrayList<Reservation> findReservations(String code, String airline, String name) {
 		ArrayList<Reservation> foundReservations = new ArrayList<>();
-		for (Reservation r1 : reservations) {
-			if (r1.getCode().equals(code)) {
+		for (Reservation r1 : reservations) { // for some reason this is an empty array
+			//System.out.println(r1.getCode());
+			//System.out.println(r1.getAirline());
+			//System.out.println(r1.getName());
+			if (r1.getCode().equals(code) || 
+			r1.getAirline().equals(airline) || 
+			r1.getName().equals(name)) {
+				System.out.println("finReservations method found a match and added to array list");
+						foundReservations.add(r1);
+			}
+			
+			
+			/**if (r1.getCode().equals(code)) {
 				if (r1.getAirline().equals(airline)) {
 					if (r1.getName().equals(name)) {
 						foundReservations.add(r1);
@@ -45,7 +56,9 @@ public class ReservationManager {
 				}
 
 			}
-		}
+		}*/
+		
+	}
 		return foundReservations;
 	}
 
@@ -63,7 +76,7 @@ public class ReservationManager {
 		RandomAccessFile randomFile = new RandomAccessFile("./res/reservations.dat", "rw");
 		//add seek(randomFile.lenght())
 		long position = 0;
-		randomFile.seek(position);
+		//randomFile.seek(position); // overwrite the whole file
 		position = randomFile.getFilePointer();
 		for (Reservation r1 : reservations) { // not sure if this will make one big line or multiple. . .
 			randomFile.seek(position);
@@ -97,6 +110,7 @@ public class ReservationManager {
 			 }
 			position = randomFile.getFilePointer();
 		}
+		System.out.println("Persist method: saved arraylist to random file");
 	}
 
 	private int getAvailableSeats(Flight flight) {
@@ -110,12 +124,12 @@ public class ReservationManager {
 		} else {
 			code = "I";
 		}
-		code = code + (Math.random() * (10000 - 1000 + 1) + 1000);
+		code = code + (int)(Math.random() * (10000 - 1000 + 1) + 1000); // fix this
 		return code;
 	}
 
-	private void populateFromBinary() {
-		final int record = 168;// (7*20->)140 + (7*2->)28 = 168
+	public void populateFromBinary() {
+		final double record = 154;
 		String code = "";
 		String flightCode = "";
 		String airline = "";
@@ -128,7 +142,7 @@ public class ReservationManager {
 			RandomAccessFile randomFile = new RandomAccessFile("./res/reservations.dat", "rw");
 			long fileSize = randomFile.length();
 			randomFile.seek(0);
-			long NumRecords = fileSize / record;
+			double NumRecords = fileSize / record;
 			for (int j = 0; j < NumRecords; j++) {
 
 				name = randomFile.readUTF();
@@ -161,11 +175,12 @@ public class ReservationManager {
 				}
 				Reservation r1 = new Reservation(flightCode, name, citizenship, code, airline, cost, active);
 				reservations.add(r1);
+				System.out.println("populateFromBinary method: random file read and added to arraylist");
 			}
 			randomFile.close();
 
 		} catch (java.io.IOException e) {
-			System.out.println("random access file empty");
+			System.out.println("IO exception");
 			e.getMessage();
 		}
 	}

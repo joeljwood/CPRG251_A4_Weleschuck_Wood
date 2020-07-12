@@ -447,6 +447,7 @@ public class FlightsTab extends TabBase {
 					
 					try {
 						rm1.persist();
+						System.out.print("wrote and persisted data from the flights tab, reserve button");
 					} catch (IOException e1) {
 						System.out.println("rm1.persist did not work");
 						e1.printStackTrace();
