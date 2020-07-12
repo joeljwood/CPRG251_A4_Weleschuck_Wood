@@ -2,6 +2,7 @@ package sait.frs.problemdomain;
 
 import java.io.RandomAccessFile;
 
+import sait.frs.exception.InvalidFlightCodeException;
 import sait.frs.problemdomain.Flight;
 
 public class Reservation {
@@ -78,7 +79,7 @@ public class Reservation {
 		 this.active = active;
 	 }
 	 
-	 public Reservation(Flight flight, String name, String citizenship, String code) {
+	 public Reservation(Flight flight, String name, String citizenship, String code) throws InvalidFlightCodeException {
 		 this.name = name;
 		 this.citizenship = citizenship;
 		 this.flightCode  = flight.getCode();

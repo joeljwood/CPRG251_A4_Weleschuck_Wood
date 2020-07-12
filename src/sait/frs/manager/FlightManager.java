@@ -98,7 +98,7 @@ public class FlightManager {
 	 * @param weekday Day of week (one of WEEKDAY_* constants). Use WEEKDAY_ANY for any day of the week.
 	 * @return flights Any found Flight objects
 	 */
-	public ArrayList<Flight> findFlights(String from, String to, String weekday){
+	public  ArrayList<Flight> findFlights(String from, String to, String weekday){
 		ArrayList<Flight> foundFlights = new ArrayList<>();
 		for(Flight f1 : flights) {
 			if(f1.getFrom().equals(from) && f1.getTo().equals(to) && weekday.equals(WEEKDAY_ANY )) {

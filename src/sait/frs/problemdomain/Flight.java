@@ -1,4 +1,7 @@
 package sait.frs.problemdomain;
+
+import sait.frs.exception.InvalidFlightCodeException;
+
 /**
  * 
  * @author Joel Wood and Zennon Weleschuck
@@ -55,8 +58,9 @@ public class Flight {
 	/**
 	 * Gets Airline name
 	 * @return airlineName Name of airline
+	 * @throws InvalidFlightCodeException 
 	 */
-	public String getAirline() {
+	public String getAirline() throws InvalidFlightCodeException {
 		parseCode(code);
 		return airlineName;
 	}
@@ -184,7 +188,7 @@ public class Flight {
 		}
 		return isDomestic;
 	}
-	public void parseCode(String code) {
+	public void parseCode(String code) throws InvalidFlightCodeException {
 		
 		String codeToParse = getCode();
 		
@@ -203,7 +207,7 @@ public class Flight {
 			airlineName = "Vertical Airways";
 		}
 		else {
-			airlineName = "Not a valid Airline";
+			throw new InvalidFlightCodeException();
 		}
 	}
 	

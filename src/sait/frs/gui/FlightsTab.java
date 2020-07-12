@@ -6,16 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.naming.InvalidNameException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import sait.frs.*;
-import sait.frs.exception.InvalidCitezenshipException;
-//import sait.frs.exception.InvalidCitizenshipException;
-//import sait.frs.exception.InvalidNameException;
-//import sait.frs.exception.NoMoreSeatsException;
+import sait.frs.exception.InvalidCitizenshipException;
+import sait.frs.exception.InvalidFlightCodeException;
+import sait.frs.exception.NoMoreSeatsException;
+import sait.frs.exception.NullFlightException;
+import sait.frs.exception.InvalidCitizenshipException;
+import sait.frs.exception.NoMoreSeatsException;
 //import sait.frs.exception.NullFlightException;
 import sait.frs.manager.FlightManager;
 //import sait.frs.manager.Manager;
@@ -136,7 +139,7 @@ public class FlightsTab extends TabBase {
 		 */
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			returnText();
+			//returnText();
 		}
 	}
 
@@ -426,7 +429,6 @@ public class FlightsTab extends TabBase {
 				String to = (String) toBox.getSelectedItem();
 				String weekday = (String) dayBox.getSelectedItem();
 				flightsModel.clear();
-
 				for (Flight flight : flightManager.findFlights(from, to, weekday)) {
 					flightsModel.addElement(flight);
 				}
@@ -435,40 +437,19 @@ public class FlightsTab extends TabBase {
 				Flight flight = flightsList.getSelectedValue();
 				String name = nameSearch.getText();
 				String citizenship = citizenshipSearch.getText();
-				//try {
-					try {
-						Reservation r1 = rm1.makeReservation(flight, name, citizenship);
-						JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode() ); // returns null
-					} catch (IOException e1) {
-						System.out.println("reservationManger.makereservation did not work");
-						e1.printStackTrace();
-					}
-					System.out.println("no catch");
-					
-					try {
-						rm1.persist();
-					} catch (IOException e1) {
-						System.out.println("rm1.persist did not work");
-						e1.printStackTrace();
-					}
-				/**} catch (NullFlightException e1) {
-					System.out.println(e1.getMessage());
-					System.out.println(e1.getStackTrace());
-				}catch (NoMoreSeatsException e2) {
-					System.out.println(e2.getMessage());
-					System.out.println(e2.getStackTrace());
-					
-				}catch (InvalidNameException e3) {
-					System.out.println(e3.getMessage());
-					System.out.println(e3.getStackTrace());*/
-					
-				/**}catch (InvalidCitezenshipException e4) {
-					System.out.println(e4.getMessage());
-					System.out.println(e4.getStackTrace());*/
-				//}catch(Exception e1) {
-				//	System.out.println("reserveButton did not work");
-				//	e1.getMessage();
-				//}
+				try {
+					rm1.makeReservation(flight, name, citizenship);
+					Reservation r1 = new Reservation(flight, name, citizenship);
+					JOptionPane.showMessageDialog(null, "Reservation created your code is " + r1.getCode());
+					rm1.persist();
+				//need more catches here
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidFlightCodeException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		}
@@ -476,8 +457,9 @@ public class FlightsTab extends TabBase {
 
 	/**
 	 * This is the method for displaying information in fields
+	 * @throws InvalidFlightCodeException 
 	 */
-	private void returnText() {
+	private void returnText() throws InvalidFlightCodeException {
 		String flightText = "";
 		String airlineText = "";
 		String dayText = "";
@@ -497,3 +479,5 @@ public class FlightsTab extends TabBase {
 		costSearch.setText(cost);
 	}
 }
+
+

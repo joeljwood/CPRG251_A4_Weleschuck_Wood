@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
+import sait.frs.exception.InvalidFlightCodeException;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
 
@@ -21,7 +22,7 @@ public class ReservationManager {
 		populateFromBinary();
 	}
 
-	public Reservation makeReservation(Flight flight, String name, String citizenship) throws IOException {
+	public Reservation makeReservation(Flight flight, String name, String citizenship) throws IOException, InvalidFlightCodeException {
 		// add try catch for null or empty name and citiznship
 		// add try cathc to see if flight has seats availble
 		String resCode = generateReservationCode(flight);

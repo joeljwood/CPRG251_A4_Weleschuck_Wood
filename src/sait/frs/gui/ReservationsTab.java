@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import sait.frs.exception.InvalidCitizenshipException;
 //import sait.frs.exception.InvalidCitizenshipException;
 //import sait.frs.exception.InvalidNameException;
 //import sait.frs.exception.NoMoreSeatsException;
@@ -434,16 +435,7 @@ public class ReservationsTab extends TabBase {
 				Reservation reservation = reservationList.getSelectedValue();
 				//try {
 					reservation.setName(nameReserveText.getText());
-				/*} catch (InvalidNameException e1) {
-					System.out.println(e1.getMessage());
-					e1.printStackTrace();
-				}
-				try {*/
-					reservation.setCitizenship(citizenReserveText.getText());
-				/*} catch (InvalidCitizenshipException e1) {
-					System.out.println(e1.getMessage());
-					e1.printStackTrace();
-				}*/
+				reservation.setCitizenship(citizenReserveText.getText());
 				String status = (String) statusReserveComboBox.getSelectedItem();
 				if (status.equals("active")) {
 					reservation.setActive(true);
