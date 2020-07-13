@@ -5,146 +5,195 @@ import java.io.RandomAccessFile;
 import sait.frs.exception.InvalidFlightCodeException;
 import sait.frs.problemdomain.Flight;
 
+/**
+ * This class is for the reservation object and contains its constructors,
+ * accessor, and muterators
+ * 
+ * @author Joel Wood and Zennon Weleschuk
+ * 
+ *
+ */
 public class Reservation {
-	 private String code;
-	 private String flightCode;
-	 private String airline;
-	 private String name;
-	 private String citizenship;
-	 private double cost;
-	 private boolean active;
-	
-	 public Reservation() {
-		 
-	 }
-	 
-	 public Reservation(Flight flight, String name, String citizenship) {
-		 this.name = name;
-		 this.citizenship = citizenship;
-		 this.flightCode  = flight.getCode();
-		 this.code = getCode();
-		 this.airline = getAirline();
-		 this.cost = flight.getCostPerSeat();
-		 this.active = isActive();
-		 
-		 /**try {
-			 RandomAccessFile randomFile = new RandomAccessFile("reservations.dat", "rw");
-			 long  fileSize = randomFile.length();
-			 randomFile.seek(fileSize);
-			 
-			 randomFile.writeUTF(this.name);
-			 for (int i = 0;i <20-name.length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeUTF(this.citizenship);
-			 for (int i = 0;i <20-citizenship.length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeUTF(this.flightCode);
-			 for (int i = 0;i <20-flightCode.length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeUTF(this.code);
-			 for (int i = 0;i <20-code.length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeUTF(this.airline);
-			 for (int i = 0;i <20-airline.length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeDouble(this.cost);
-			 for (int i = 0;i <20-String.valueOf(cost).length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.writeBoolean(this.active);
-			 for (int i = 0;i <20-String.valueOf(active).length(); i++ ) {
-				 randomFile.writeByte(20);
-			 }
-			 randomFile.close();
-			 
-		 }catch (java.io.IOException e) {
-				e.getMessage();
-			}*/
-		 }
-		 
+	private String code;
+	private String flightCode;
+	private String airline;
+	private String name;
+	private String citizenship;
+	private double cost;
+	private boolean active;
 
-	 public Reservation(String FlightCode, String name, String citizenship, 
-			 String code, String airline, double cost, boolean active) {
-		 this.name = name;
-		 this.citizenship = citizenship;
-		 this.flightCode  = FlightCode;
-		 this.code = code;
-		 this.airline = airline;
-		 this.cost = cost;
-		 this.active = active;
-	 }
-	 
-	 public Reservation(Flight flight, String name, String citizenship, String code) throws InvalidFlightCodeException {
-		 this.name = name;
-		 this.citizenship = citizenship;
-		 this.flightCode  = flight.getCode();
-		 this.code = code;
-		 this.airline = flight.getAirline();
-		 this.cost = flight.getCostPerSeat();
-		 this.active = true;
-	 }
-	 
-	 
-	 
-	 public String getCode() {
-		 return code; 
-	 }
+	/**
+	 * no args construcrtor
+	 */
+	public Reservation() {
 
-	public void setCode(String string) {
+	}
+
+	/**
+	 * constructor for reservations object
+	 * 
+	 * @param flight      object from flight class
+	 * @param name        of the customers
+	 * @param citizenship country name of the customer
+	 */
+	public Reservation(Flight flight, String name, String citizenship) {
+		this.name = name;
+		this.citizenship = citizenship;
+		this.flightCode = flight.getCode();
+		this.code = getCode();
+		this.airline = getAirline();
+		this.cost = flight.getCostPerSeat();
+		this.active = isActive();
+
+	}
+
+	/**
+	 * constructor for reservation object that accepts requires all params
+	 * 
+	 * @param FlightCode  of the flight
+	 * @param name        of customer
+	 * @param citizenship country name of customer
+	 * @param code        of the reservation
+	 * @param airline     name
+	 * @param cost        of the flight
+	 * @param active      statues of the reservation
+	 */
+	public Reservation(String FlightCode, String name, String citizenship, String code, String airline, double cost,
+			boolean active) {
+		this.name = name;
+		this.citizenship = citizenship;
+		this.flightCode = FlightCode;
+		this.code = code;
+		this.airline = airline;
+		this.cost = cost;
+		this.active = active;
+	}
+
+	/**
+	 * constructor that take also accepts the code value in the args
+	 * 
+	 * @param flight      object of the flight
+	 * @param name        of the customer
+	 * @param citizenship country of the customer
+	 * @param code        of the reservation
+	 * @throws InvalidFlightCodeException in case of invalid flight code
+	 */
+	public Reservation(Flight flight, String name, String citizenship, String code) throws InvalidFlightCodeException {
+		this.name = name;
+		this.citizenship = citizenship;
+		this.flightCode = flight.getCode();
+		this.code = code;
+		this.airline = flight.getAirline();
+		this.cost = flight.getCostPerSeat();
+		this.active = true;
+	}
+
+	/**
+	 * getter for code variable
+	 * 
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * set the reservation code
+	 * 
+	 * @param code of the reservation
+	 */
+	public void setCode(String code) {
 		this.code = code;
 	}
 
+	/**
+	 * get the flight code
+	 * 
+	 * @return the code of the flight
+	 */
 	public String getFlightCode() {
 		return flightCode;
 	}
 
+	/**
+	 * get the airline name
+	 * 
+	 * @return the airline name
+	 */
 	public String getAirline() {
 		return airline;
 	}
 
+	/**
+	 * get the name of the customer
+	 * 
+	 * @return the name of the customer
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * get the citizenship of the customer
+	 * 
+	 * @return the citizenship of the customer
+	 */
 	public String getCitizenship() {
 		return citizenship;
 	}
 
+	/**
+	 * get the cost of the flight
+	 * 
+	 * @return the cost of the flight
+	 */
 	public double getCost() {
 		return cost;
 	}
 
+	/**
+	 * weather the reservation is active or not
+	 * 
+	 * @return the state of the reservation
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * set the name of the customer
+	 * 
+	 * @param name of the customer
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * set the customers citizenship
+	 * 
+	 * @param citizenship of the customer
+	 */
 	public void setCitizenship(String citizenship) {
 		this.citizenship = citizenship;
 	}
 
+	/**
+	 * set weather the reservation is active or not
+	 * 
+	 * @param active if the reservation is active or not
+	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
-	/**@Override
-	public String toString() {
-		return "Reservation [code=" + code + ", flightCode=" + flightCode + ", airline=" + airline + ", name=" + name
-				+ ", citizenship=" + citizenship + ", cost=" + cost + ", active=" + active + "]";
-	}*/
-	
+	/**
+	 * override toString for displaying the desired information of the reservation
+	 * object
+	 */
 	@Override
 	public String toString() {
-		return  code ;
+		return code;
 	}
-	 
-	 
+
 }

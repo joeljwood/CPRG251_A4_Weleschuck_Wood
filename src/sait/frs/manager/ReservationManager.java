@@ -15,6 +15,7 @@ import sait.frs.exception.NoMoreSeatsException;
 import sait.frs.problemdomain.Flight;
 import sait.frs.problemdomain.Reservation;
 
+
 public class ReservationManager extends Reservation {
 	private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 	Scanner scan = new Scanner(System.in);
